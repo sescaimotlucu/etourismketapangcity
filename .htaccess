@@ -1,0 +1,17 @@
+RewriteEngine On
+# Redirect semua request ke /public/
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [L]
+
+# Blok akses langsung ke folder app/
+RedirectMatch 403 ^/app/.*$
+
+# Lindungi file sensitif
+<FilesMatch "\.(env|ini|log|sql|bak|sh)$">
+  Require all denied
+</FilesMatch>
+
+# Kompresi dasar (jika modul aktif)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
